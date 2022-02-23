@@ -1,0 +1,17 @@
+<div class="card text-start my-2">
+  <div class="card-body">
+    <h4 class="card-title">
+      <% if(video!=undefined){%>
+      <%= video.title %>
+      <%}%>
+        </h4>
+        <a name="" <% if(video!=undefined){%>id="<%=video.id%>"<%}%> class="card-text btn btn-outline-success" href="
+                    <%if(video!=undefined){%>
+      <%= video.url %>
+      <%}%>role=" button">Assistir
+        </a>
+        <% if (admin) { %>
+      <button class="btn btn-danger delete-button" id="<%=video.id %>">Delete</button>
+      <% } %>
+  </div>
+</div>
