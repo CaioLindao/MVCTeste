@@ -8,10 +8,10 @@ const connect_mongo = require("connect-mongo");
 
 //' VARIÁVEIS
 
-
 const PORT = 8080;
 
-const URI = "mongodb+srv://admin:admin@cluster0.ocqc0.mongodb.net/database01?retryWrites=true&w=majority";
+const URI =
+  "mongodb+srv://admin:admin@cluster0.ocqc0.mongodb.net/database01?retryWrites=true&w=majority";
 
 const COOKIE_EXPIRE_TIME = 1000 * 60 * 60 * 24;
 
@@ -25,19 +25,19 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 
 // Disponibiliza Socket.io para os controllers e routers
-app.set('socketio', io);
+app.set("socketio", io);
 
 app.set("view-engine", "ejs");
 
 //' CONEXÃO COM O SOCKET.IO
 
 io.on("connection", () => {
-    console.log("User connected")
-})
+  console.log("User connected");
+});
 
 //' ACESSO À PASTA PUBLIC
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 //' CODIFICAÇÃO DO METODO POST
 
@@ -45,18 +45,20 @@ app.use(express.urlencoded({ extended: true }));
 
 //' INCLUSÃO DAS SESSÕES
 
-app.use(cookieParser())
-app.use(sessions({
+app.use(cookieParser());
+app.use(
+  sessions({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
     saveUninitialized: true,
     cookie: { maxAge: COOKIE_EXPIRE_TIME },
     resave: false,
     store: connect_mongo.create({
-        mongoUrl: URI,
-        autoRemove: 'interval',
-        autoRemoveInterval: 10
-    })
-}));
+      mongoUrl: URI,
+      autoRemove: "interval",
+      autoRemoveInterval: 10,
+    }),
+  })
+);
 
 //' ROUTES
 
@@ -76,13 +78,14 @@ app.use("/", home_route);
 
 //' CONEXÃO COM DB E INICIALIZAÇÃO DO SERVIDOR
 
-mongoose.connect(URI)
-    .then(() => {
-        console.log("Sucessfully connected to mongoDB");
-        const server = http.listen(PORT, () => {
-            console.log("Server is running on port ", server.address().port);
-        });
-    })
-    .catch((e) => {
-        console.log(e);
+mongoose
+  .connect(URI)
+  .then(() => {
+    console.log("Sucessfully connected to mongoDB");
+    const server = http.listen(PORT, () => {
+      console.log("Server is running on port ", server.address().port);
     });
+  })
+  .catch((e) => {
+    console.log(e);
+  });

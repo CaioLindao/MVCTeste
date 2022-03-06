@@ -1,81 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
-<%-include("./templates/head.ejs")%>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <body>
-    <nav class="navbar navbar-expand navbar-light bg-main">
-      <div class="col-6 nav navbar-nav fw-bold text-light">
-        <div class="input-group mx-5">
-          <input class="form-control" id="searchbar" name="searchbar" type="text" placeholder="Procure um vídeo">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Css -->
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="js/indexCSS.js"></script>
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <header class="col-sm-12 bg-grad py-5">
+        <div class="row justify-content-center text-white m-0">
+            <div class="col-8 m-0 p-0">
+                <div class="row text-center" style="margin-top: 8em">
+                    <h1 class="fw-bolder m-0" id="header-welcome">
+                        BEM-VINDE AO LOREM!</h1>
+                    <p class="m-0 fw-light" id="header-subtitle">O SEU GUIA DE ESTUDO FAVORITO</p>
+                </div>
+            </div>
+            <div class="col-8 m-0 p-0">
+                <div class="rows" style="margin-top: 5em">
+                    <p class="m-0 fw-bold">Use a área abaixo para pesquisar os assuntos que você
+                        precisa aprender. Basta inserir o nome.</p>
+                </div>
+            </div>
+            <div class="col-8 m-0 p-0">
+                <div class="row mt-4">
+                    <h6 class="m-0">Exemplos:</h6>
+                </div>
+                <div class="row">
+                    <ul class="list-unstyled small">
+                        <li>Agronomia</li>
+                        <li>História da Arte</li>
+                        <li>HTML e CSS</li>
+                        <li>Tecnologia da Informação</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-8  m-0 p-0mt-3">
+                <div class="row">
+                    <label for="" class="form-label"></label>
+                    <input class="form-control text-center fw-bold" name="" id="searchArea"
+                        placeholder="insira o assunto"></input>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-6 justify-content-end nav navbar-nav fw-bold text-light">
-        <nav class="nav justify-content-center|justify-content-end mx-3">
-          <% if (!admin) { %>
-            <a class="nav-link active text-light" href="/login">Entrar como Administrador</a>
-            <% } else { %>
-              <a class="nav-link active text-light" href="/login/logout">Sair do modo Administrador</a>
-              <% } %>
-        </nav>
-      </div>
-    </nav>
+    </header>
+    <main style="height: 100vh">
 
-    <main class="p-0 m-0">
-      <div class="col-6 bg-light p-5" id="searchresults">
-        <% if (data){ for (let i=0; i < data.length; i++) { const video=data[i]; %>
-          <%-include("./templates/card.ejs", {video: video, admin: admin})%>
-            <% } } %>
-      </div>
     </main>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="../js/search.js"></script>
-    <script>
-      let socket = io();
-
-      $(() => {
-        // Percorre todas as âncoras "Assitir"
-        let buttons = $(".delete-button");
-        buttons.each((i) => {
-          let button = buttons[i];
-
-          // Adiciona um evento onClick a cada ancora
-          $(button).on("click", (e) => {
-            e.preventDefault();
-            let id = $(button).attr("id");
-
-            $.ajax({
-              url: `http://localhost:8080/create/${id}`,
-              type: 'DELETE'
-            });
-
-          })
-        })
-
-        // Escuta a resposta do socket.io para videos deletados
-        socket.on("delete", (id) => {
-          $(`#${id}`).parent().parent().remove();
-        })
-      })
-      // let buttons = document.getElementsByTagName("button");
-      // buttons = Array.from(buttons);
-      // buttons.forEach(button => {
-      //   button.addEventListener("click", (e) => {
-      //     const button = e.path[0].id;
-      //     const endpoint = "/create/" + button;
-      //     fetch(endpoint, {
-      //       method: "DELETE"
-      //     })
-      //       .then(response => response.json())
-      //       .then(data => window.location.href = data.redirect)
-      //       .catch(err => console.log(err));
-      //   })
-      // });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"></script>
-  </body>
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="js/jquery.fittext.js"></script>
+</body>
 
 </html>

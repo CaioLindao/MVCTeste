@@ -1,20 +1,34 @@
-.bg-main{
-    background-color: #1e992d;
+/*' IMPORTAÇÕES */
+
+/* Fonte Roboto */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+
+/*' CLASSES FUNDAMENTAIS */
+* {
+  font-family: "Roboto", sans-serif;
+  /* font-weight: 900; */
+}
+.bg-grad {
+  background: #00f99f;
+  background: linear-gradient(135deg, #00f99f 0%, #068fdc);
 }
 
-#searchbar{
-    width: 30vw;
-}
+/*' LAYOUT */
+/* Smallest phone */
+@media (min-width: 320px) {
+  #header-welcome {
+    font-weight: 900;
+  }
 
-#form{
-    height: 60vh;
-}
+  #searchArea {
+    height: 4em;
+    border-radius: 0.5em;
+  }
 
-#loginmain{
-    height: 100vh;
-    width: 100vw;
-}
-
-#searchresults{
-    height: 100vh;
+  #searchArea::placeholder {
+    background: #00f99f;
+    background: linear-gradient(135deg, #00f99f 0%, #068fdc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
