@@ -1,8 +1,11 @@
 $(() => {
-  // Muda o tamanho do texto do header para se adaptar ao tamanho da tela
-  // const headerWelcome = $("#header-welcome");
-  // $(headerWelcome).fitText(0.58);
-  // Muda o tamanho do texto do subtitulo para se adaptar ao tamanho da tela
-  // const headerSubtitle = $("#header-subtitle");
-  // $(headerSubtitle).fitText(1.6);
+  let videos = $("iframe");
+  $(window).on("resize", () => {
+    $.each($("iframe"), (index) => {
+      let maxWidth = $(".video-container").innerWidth();
+      $(videos[index]).attr("width", maxWidth);
+      $(videos[index]).attr("height", maxWidth * 0.5625);
+    });
+  });
+  $(window).trigger("resize");
 });
