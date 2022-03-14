@@ -31,8 +31,8 @@ app.set("view-engine", "ejs");
 
 //' CONEXÃO COM O SOCKET.IO
 
-io.on("connection", () => {
-  console.log("User connected");
+io.on("connection", (socket) => {
+  io.emit("connected", socket.id);
 });
 
 //' ACESSO À PASTA PUBLIC
@@ -67,6 +67,7 @@ const create_route = require("./routes/create");
 const login_route = require("./routes/login");
 const dashboard_route = require("./routes/dashboard");
 const { Socket } = require("socket.io");
+const req = require("express/lib/request");
 
 //' ROUTING
 
