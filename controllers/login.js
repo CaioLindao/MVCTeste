@@ -36,7 +36,6 @@ const admin_list = async (req, res) => {
 
 const admin_login = async (req, res) => {
   let { login, password } = req.body;
-  console.log(login, password);
 
   const admin = await Admin_model.findOne({ login });
 
@@ -62,8 +61,10 @@ const admin_login = async (req, res) => {
 const admin_logout = (req, res) => {
   if (req.session.userid) {
     req.session.destroy();
+    res.redirect("/home");
+    return;
   }
-  res.redirect("/home");
+  res.redirect("/login");
 };
 //' CONECTA COM A ROUTE LOGIN
 
