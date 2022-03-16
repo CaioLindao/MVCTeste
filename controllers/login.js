@@ -34,7 +34,30 @@ const admin_list = async (req, res) => {
   }
 };
 
-const admin_login = async (req, res) => {};
+const admin_login = async (req, res) => {
+  let { login, password } = req.body;
+  console.log(login, password);
+
+  const admin = await Admin_model.findOne({ login });
+
+  if (!admin) {
+    // Caso não haja nenhum administrador com o login
+    res.json({ message: "login incorreto", status: 422 });
+    return;
+  }
+
+  // Compara a senha do administrador
+  let auth = await bcrypt.compare(password, admin.password);
+  if (!auth) {
+    // Caso não seja a senha correta
+    res.json({ message: "senha incorreta", status: 422 });
+    return;
+  }
+
+  // Caso o login esteja correto
+  req.session.userid = login;
+  res.json({ message: "entrando...", status: 100 });
+};
 
 const admin_logout = (req, res) => {
   if (req.session.userid) {

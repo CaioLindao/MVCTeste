@@ -25,14 +25,14 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 
 // Disponibiliza Socket.io para os controllers e routers
-app.set("socketio", io);
+app.locals.io = io;
 
 app.set("view-engine", "ejs");
 
 //' CONEXÃO COM O SOCKET.IO
 
 io.on("connection", (socket) => {
-  io.emit("connected", socket.id);
+  io.emit("connected");
 });
 
 //' ACESSO À PASTA PUBLIC
