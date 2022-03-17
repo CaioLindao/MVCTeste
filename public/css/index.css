@@ -20,6 +20,7 @@
 .bg-grad {
   background: var(--lime);
   background: linear-gradient(135deg, var(--lime) 0%, var(--turquoise));
+  border: 0;
 }
 
 .text-shadow {

@@ -6,41 +6,63 @@
 <script defer src="js/indexCSS.js"></script>
 
 <body>
-    <h1>Criar novo video</h1>
-    <hr>
+    <!DOCTYPE html>
+    <html lang="en">
+    <%-include("./templates/head.ejs")%>
 
-    <form action="/create" id="form" method="post">
-        <label for="title">Título:</label>
-        <input type="text" name="title" id="title">
-        <label for="url">Url:</label>
-        <input type="text" name="url" id="url">
-        <label for="tags">Tags:</label>
-        <input type="text" name="tags" id="tags">
-        <input type="submit">
-    </form>
-</body>
+    <body>
+        <main id="loginmain" class="row g-0 bg-grad p-0 m-0" style="height: 100vh;">
+            <div class="col-8 fw-bold m-auto">
+                <div class="row bg-white rounded p-5">
+                    <div class="col-12">
+                        <form action="/create" id="form" method="post">
+                            <div class="row my-3 text-grad">
+                                <label for="title">Título:</label>
+                                <input class="g-0 p-0" type="text" name="title" id="title">
+                            </div>
 
-<script>
-    $(() => {
-        $("#form").on("submit", async (e) => {
-            e.preventDefault();
-            // Coleta os dados do formulário
-            let form = {
-                title: $("#title").val(),
-                url: $("#url").val(),
-                tags: $("#tags").val(),
-            };
+                            <div class="row my-3 text-grad">
+                                <label for="url">Url:</label>
+                                <input class="g-0 p-0" type="text" name="url" id="url">
+                            </div>
+                            <div class="row my-3 text-grad">
+                                <label for="tags">Tags:</label>
+                                <input class="g-0 p-0" type="text" name="tags" id="tags">
+                            </div>
+                            <div class="row my-3">
+                                <input class="btn btn-primary text-white bg-grad fw-bold" type="submit"></input>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-            try {
-                const response = await $.post("http://localhost:8080/create/", form);
-                if (jQuery.isEmptyObject(response)) {
-                    throw new Error("Campo vasio");
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        });
-    });
-</script>
 
-</html>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="js/login.js"></script>
+        <script>
+            $(() => {
+                $("#form").on("submit", async (e) => {
+                    e.preventDefault();
+                    // Coleta os dados do formulário
+                    let form = {
+                        title: $("#title").val(),
+                        url: $("#url").val(),
+                        tags: $("#tags").val(),
+                    };
+
+                    try {
+                        const response = await $.post("http://localhost:8080/create/", form);
+                        if (jQuery.isEmptyObject(response)) {
+                            throw new Error("Campo vasio");
+                        }
+                    } catch (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        </script>
+    </body>
+
+    </html>
