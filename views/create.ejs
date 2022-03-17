@@ -1,24 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create</title>
-</head>
+<%-include("./templates/head.ejs")%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script defer src="js/indexCSS.js"></script>
 
 <body>
     <h1>Criar novo video</h1>
     <hr>
 
-    <form action="/create" id="submit" method="post">
+    <form action="/create" id="form" method="post">
         <label for="title">Título:</label>
-        <input type="text" name="title">
+        <input type="text" name="title" id="title">
         <label for="url">Url:</label>
-        <input type="text" name="url">
+        <input type="text" name="url" id="url">
+        <label for="tags">Tags:</label>
+        <input type="text" name="tags" id="tags">
         <input type="submit">
     </form>
 </body>
+
+<script>
+    $(() => {
+        $("#form").on("submit", async (e) => {
+            e.preventDefault();
+            // Coleta os dados do formulário
+            let form = {
+                title: $("#title").val(),
+                url: $("#url").val(),
+                tags: $("#tags").val(),
+            };
+
+            try {
+                const response = await $.post("http://localhost:8080/create/", form);
+                if (jQuery.isEmptyObject(response)) {
+                    throw new Error("Campo vasio");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    });
+</script>
 
 </html>
