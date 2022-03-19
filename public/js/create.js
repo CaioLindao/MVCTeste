@@ -11,8 +11,10 @@ $(() => {
     try {
       const response = await $.post("/create/", form);
       if (jQuery.isEmptyObject(response)) {
-        throw "Campo vazio";
+        throw "campo vazio";
       }
+      helpText("vídeo criado com sucesso", 100);
+      $("#form").trigger("reset");
     } catch (error) {
       helpText(error);
     }
@@ -26,12 +28,10 @@ const helpText = (text, status) => {
   switch (status) {
     case 100:
       help.classList.remove("text-danger");
-      help.classList.remove("text-success");
-      help.classList.add("text-secondary");
+      help.classList.add("text-success");
       break;
 
     default:
-      help.classList.remove("text-secondary");
       help.classList.remove("text-success");
       help.classList.add("text-danger");
       break;
