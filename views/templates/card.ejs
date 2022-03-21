@@ -1,17 +1,23 @@
-<div class="card text-start my-2">
-  <div class="card-body">
-    <h4 class="card-title">
-      <% if(video!=undefined){%>
-      <%= video.title %>
-      <%}%>
-        </h4>
-        <a name="" <% if(video!=undefined){%>id="<%=video.id%>"<%}%> class="card-text btn btn-outline-success" href="
-                    <%if(video!=undefined){%>
-      <%= video.url %>
-      <%}%>role=" button">Assistir
-        </a>
-        <% if (admin) { %>
-      <button class="btn btn-danger delete-button" id="<%=video.id %>">Delete</button>
+<div class="row g-0">
+  <div class="row g-0">
+    <iframe class="col-10 m-auto" width="727" height="409" src="https://www.youtube.com/embed/<%=video.url%>"
+      title="YouTube video player" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+  </div>
+  <div class="row g-0">
+    <p class="col-10 m-auto fw-bold">
+      <%=video.title %>
+    </p>
+  </div>
+  <div class="row g-0">
+    <p class="col-10 m-auto small fw-light text-lowercase">
+      <% (video.tags).forEach((tag, index) => { %>
+      <%=tag%>
+      <% if (index!=(video.tags.length-1)) { %>
+      <%="," %>
       <% } %>
+      <% }) %>
+    </p>
   </div>
 </div>

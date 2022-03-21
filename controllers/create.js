@@ -17,20 +17,23 @@ const create_post = async (req, res) => {
       throw new Error("Error");
     }
 
+    // Trata a url, deixando apenas a ultima parte do link
+    let newUrl = url.split("/");
+    newUrl = newUrl[newUrl.length - 1];
+
+    // Remove os espaços das tags
     let splitTags = tags.split(";");
     let trimTags = new Array();
 
     splitTags.forEach((tag) => {
-      trimTags.push(tag.trim());
+      trimTags.push(tag.trim().toLowerCase());
     });
 
-    await Home_model.create({ title, url, tags: trimTags });
+    await Home_model.create({ title, url: newUrl, tags: trimTags });
     res.sendStatus(200);
   } catch (error) {
-    res.send(error);
+    res.json(error);
   }
-
-  //   res.redirect("/home");
 };
 
 const create_delete = async (req, res) => {
