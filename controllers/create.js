@@ -17,14 +17,14 @@ const create_post = async (req, res) => {
       throw new Error("Error");
     }
 
-    let splitTags = tags.split(";");
-    let trimTags = new Array();
+    let newtags = new Array();
 
-    splitTags.forEach((tag) => {
-      trimTags.push(tag.trim());
+    tags.split(";").forEach((tag) => {
+      newtags.push(tag.trim().toLowerCase());
     });
 
-    await Home_model.create({ title, url, tags: trimTags });
+    console.log(newtags);
+    await Home_model.create({ title, url, tags: newtags });
     res.sendStatus(200);
   } catch (error) {
     res.send(error);
