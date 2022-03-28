@@ -1,24 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create</title>
-</head>
+<%-include("./templates/head.ejs")%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script defer src="js/indexCSS.js"></script>
 
 <body>
-    <h1>Criar novo video</h1>
-    <hr>
+    <!DOCTYPE html>
+    <html lang="en">
+    <%-include("./templates/head.ejs")%>
 
-    <form action="/create" id="submit" method="post">
-        <label for="title">Título:</label>
-        <input type="text" name="title">
-        <label for="url">Url:</label>
-        <input type="text" name="url">
-        <input type="submit">
-    </form>
-</body>
+    <body>
+        <main id="loginmain" class="row g-0 bg-grad p-0 m-0" style="height: 100vh;">
+            <div class="col-8 fw-bold m-auto">
+                <div class="row bg-white rounded p-5">
+                    <div class="col-12">
+                        <form action="/create" id="form" method="post">
+                            <div class="row my-3">
+                                <label class="text-grad" for="title">Título:</label>
+                                <input class="form-control" type="text" name="title" id="title">
+                            </div>
 
-</html>
+                            <div class="row my-3">
+                                <label class="text-grad" for="url">Url:</label>
+                                <input class="form-control" type="text" name="url" id="url">
+                            </div>
+                            <div class="row my-3">
+                                <label class="text-grad" for="tags">Tags:</label>
+                                <input class="form-control" type="text" name="tags" id="tags">
+                            </div>
+                            <div class="row my-3">
+                                <input class="btn btn-primary text-white bg-grad fw-bold" type="submit"
+                                    style="border: 0; border-radius: 3rem"></input>
+                            </div>
+                            <div class="row my-3">
+                                <small class="mt-3 text-center fw-light" id="help-text"></small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="js/create.js"></script>
+    </body>
+
+    </html>
