@@ -30,18 +30,31 @@ const home_get = async (req, res) => {
 const home_get_search = async (req, res) => {
   let search = req.params.search;
 
+  console.log(search);
   let obj = new RegExp(search, "i");
-  let found = await Home_model.find({ title: obj });
+  let find = await Home_model.find({ title: obj });
 
   try {
-    if (found[0] == undefined) {
-      throw `Could not find any results that match "${search}"`;
+    let data = [];
+
+    find.forEach((video, index) => {
+      if (index == 5) {
+        return;
+      }
+
+      let title = video.title;
+      let url = video.url;
+      let tags = video.tags;
+      data.push({ title, url, tags });
+    });
+
+    if (data[0] == undefined) {
+      throw {};
     } else {
-      res.json(found);
+      res.json(data);
     }
   } catch (error) {
-    console.log(error);
-    res.json({});
+    res.send(error);
   }
 };
 

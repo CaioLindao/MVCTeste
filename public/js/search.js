@@ -3,6 +3,9 @@ $(() => {
   var typingTimer;
   var doneTypingInterval = 500;
 
+  let search;
+  let lastSearch = "empty";
+
   searchbar.on("keyup", function () {
     clearTimeout(typingTimer);
     typingTimer = setTimeout(doneTyping, doneTypingInterval);
@@ -12,8 +15,30 @@ $(() => {
     clearTimeout(typingTimer);
   });
 
-  function doneTyping() {
-    console.log(searchbar.val());
+  async function doneTyping() {
+    try {
+      // Atualiza o valor das varíaveis
+      lastSearch = search;
+      search = searchbar.val();
+
+      // Caso a pesquisa não tenha mudado, recusa o envio
+      if (search == lastSearch) {
+        console.log(search, lastSearch);
+        return;
+      }
+
+      // Envia a pesquisa ao backend
+      let result = await $.ajax({
+        type: "GET",
+        url: `/${search}`,
+        data: search,
+        dataType: "text",
+      });
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   }
 });
 // window.addEventListener("load", () => {
