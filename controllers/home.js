@@ -1,3 +1,7 @@
+//' BIBLIOTECAS
+
+const ejs = require("ejs");
+
 //' MODELS
 
 const Home_model = require("../models/home");
@@ -30,12 +34,12 @@ const home_get = async (req, res) => {
 const home_get_search = async (req, res) => {
   let search = req.params.search;
 
-  console.log(search);
+  // console.log(search);
   let obj = new RegExp(search, "i");
   let find = await Home_model.find({ title: obj });
 
   try {
-    let data = [];
+    var data = [];
 
     find.forEach((video, index) => {
       if (index == 5) {
@@ -49,11 +53,15 @@ const home_get_search = async (req, res) => {
     });
 
     if (data[0] == undefined) {
-      throw {};
+      throw "No results found";
     } else {
-      res.json(data);
+      var render = ejs.renderFile("views/templates/card.ejs", {
+        video: data[0],
+      });
+      res.send(data);
     }
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 };

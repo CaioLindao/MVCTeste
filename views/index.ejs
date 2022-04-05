@@ -56,7 +56,7 @@
         <div class="row g-0 p-4">
             <p class="col-8 text-center text-grad fw-bold fs-5 g-0 m-auto">VÍDEOS POPULARES</p>
         </div>
-        <div class="row g-0 gap-3 pb-3">
+        <div class="row g-0 gap-3 pb-3" id="videos">
             <% data.forEach(video => { %>
             <%-include("templates/card.ejs", {video})%>
             <% }) %>
