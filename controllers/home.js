@@ -55,14 +55,11 @@ const home_get_search = async (req, res) => {
     if (data[0] == undefined) {
       throw "No results found";
     } else {
-      var render = ejs.renderFile("views/templates/card.ejs", {
-        video: data[0],
-      });
-      res.send(data);
+      res.json(data);
     }
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.sendStatus(400);
   }
 };
 

@@ -1,4 +1,4 @@
-<div class="row g-0">
+<div class="row g-0 card-template">
   <div class="row g-0">
     <iframe class="col-10 m-auto" width="727" height="409" src="https://www.youtube.com/embed/<%=video.url%>"
       title="YouTube video player" frameborder="0"
@@ -6,12 +6,12 @@
       allowfullscreen></iframe>
   </div>
   <div class="row g-0">
-    <p class="col-10 m-auto fw-bold">
+    <p class="col-10 m-auto fw-bold" id="video-title">
       <%=video.title %>
     </p>
   </div>
   <div class="row g-0">
-    <p class="col-10 m-auto small fw-light text-lowercase">
+    <p class="col-10 m-auto small fw-light text-lowercase" id="video-tags">
       <% (video.tags).forEach((tag, index) => { %>
       <%=tag%>
       <% if (index!=(video.tags.length-1)) { %>

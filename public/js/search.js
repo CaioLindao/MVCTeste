@@ -1,11 +1,12 @@
 $(() => {
   //' VARIÁVEIS
   const searchbar = $("#searchArea");
-  var typingTimer;
-  var doneTypingInterval = 500;
+  let typingTimer;
+  const doneTypingInterval = 500;
 
   let search;
   let lastSearch = "empty";
+  const template = $(".card-template")[0];
 
   //' PESQUISA
   searchbar.on("keyup", function () {
@@ -24,7 +25,7 @@ $(() => {
       search = searchbar.val();
 
       // Caso a pesquisa não tenha mudado, recusa o envio
-      if (search == lastSearch) {
+      if (search == lastSearch || search == "") {
         return;
       }
 
@@ -36,20 +37,45 @@ $(() => {
         dataType: "json",
       });
 
-      console.log(result);
+      renderCards(result[0]);
     } catch (error) {
       console.log("E: ", error.responseText);
     }
   }
 
   //' RENDERIZAÇÃO DOS RESULTADOS
-  async function renderCards(data) {
+  function renderCards(data) {
+    // Possibilita usar .unshift() em strings
+    String.prototype.unshift = function (el) {
+      let arr = [this];
+      arr.unshift(el);
+      return arr.join("");
+    };
+
     try {
+      const ytUrl = "https://www.youtube.com/embed/";
+
       let videos = $("#videos");
       videos.empty();
-      console.log(data);
+
+      let render = template;
+      render.children[0].children[0].src = ytUrl + data.url;
+      render.children[1].children[0].innerHTML = data.title;
+
+      let tags = new Array();
+
+      data.tags.forEach((tag, index) => {
+        if (index != 0) {
+          tag = tag.unshift(" ");
+        }
+        tags.push(tag);
+      });
+
+      render.children[2].children[0].innerHTML = tags;
+
+      $(videos).append(render);
     } catch (error) {
-      console.log(error);
+      console.error("E: ", error);
     }
   }
 });
