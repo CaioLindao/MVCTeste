@@ -11,11 +11,14 @@ const create_get = (req, res) => {
 const create_post = async (req, res) => {
   try {
     // Recebe os dados do formulário
-    const { title, url, tags } = req.body;
+    let { title, url, tags } = req.body;
     //   Verifica se há algum dado vazio
     if (!title || !url) {
-      throw new Error("Error");
+      throw new Error("Empty title or url");
     }
+
+    url = url.split("/");
+    url = url[url.length - 1];
 
     let newtags = new Array();
 
@@ -23,10 +26,10 @@ const create_post = async (req, res) => {
       newtags.push(tag.trim().toLowerCase());
     });
 
-    console.log(newtags);
     await Home_model.create({ title, url, tags: newtags });
     res.sendStatus(200);
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 
