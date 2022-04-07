@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/", home_controller.home_get);
 router.get("/card", home_controller.home_get_card);
 
-router.get("/:search", home_controller.home_get_search);
+router.get("/s/:search", home_controller.home_get_search);
 
 //' LIGAÇÃO COM APP
 

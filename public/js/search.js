@@ -32,7 +32,7 @@ $(() => {
       // Envia a pesquisa ao backend
       let result = await $.ajax({
         type: "GET",
-        url: `/${search}`,
+        url: `/s/${search}`,
         data: search,
         dataType: "json",
       });
