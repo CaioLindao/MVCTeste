@@ -36,7 +36,7 @@ const home_get_search = async (req, res) => {
 
   // console.log(search);
   let obj = new RegExp(search, "i");
-  let find = await Home_model.find({ title: obj });
+  let find = await Home_model.find({ $or: [{ title: obj }, { tags: obj }] });
 
   try {
     var data = [];
@@ -53,13 +53,14 @@ const home_get_search = async (req, res) => {
     });
 
     if (data[0] == undefined) {
-      throw "No results found";
+      throw "No results found for " + search;
     } else {
+      // console.log(data.length);
       res.json(data);
     }
   } catch (error) {
     console.log(error);
-    res.sendStatus(400);
+    res.status(400).send("Nenhum vídeo encontrado");
   }
 };
 

@@ -6,7 +6,7 @@ $(() => {
 
   let search;
   let lastSearch = "empty";
-  const template = $(".card-template")[0];
+  const template = $(".card-template")[0].innerHTML;
 
   //' PESQUISA
   searchbar.on("keyup", function () {
@@ -37,14 +37,20 @@ $(() => {
         dataType: "json",
       });
 
-      renderCards(result[0]);
+      let videos = $("#videos");
+      videos.empty();
+
+      for (let i = 0; i < result.length; i++) {
+        let render = await renderCards(result[i]);
+        $(videos).append(render);
+      }
     } catch (error) {
       console.log("E: ", error.responseText);
     }
   }
 
   //' RENDERIZAÇÃO DOS RESULTADOS
-  function renderCards(data) {
+  async function renderCards(data) {
     // Possibilita usar .unshift() em strings
     String.prototype.unshift = function (el) {
       let arr = [this];
@@ -55,10 +61,9 @@ $(() => {
     try {
       const ytUrl = "https://www.youtube.com/embed/";
 
-      let videos = $("#videos");
-      videos.empty();
+      let render = document.createElement("div");
+      render.innerHTML = template;
 
-      let render = template;
       render.children[0].children[0].src = ytUrl + data.url;
       render.children[1].children[0].innerHTML = data.title;
 
@@ -73,7 +78,7 @@ $(() => {
 
       render.children[2].children[0].innerHTML = tags;
 
-      $(videos).append(render);
+      return render;
     } catch (error) {
       console.error("E: ", error);
     }
