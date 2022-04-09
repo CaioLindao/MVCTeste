@@ -60,7 +60,7 @@ const home_get_search = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).send("Nenhum vídeo encontrado");
+    res.send("Nenhum vídeo encontrado");
   }
 };
 

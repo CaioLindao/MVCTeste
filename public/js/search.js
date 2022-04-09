@@ -45,7 +45,11 @@ $(() => {
         $(videos).append(render);
       }
     } catch (error) {
-      console.log("E: ", error.responseText);
+      let videos = $("#videos");
+      videos.empty();
+      $(
+        videos
+      )[0].innerHTML = `<div class="text-center">${error.responseText}<div>`;
     }
   }
 
