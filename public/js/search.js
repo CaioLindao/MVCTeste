@@ -33,8 +33,6 @@ $(() => {
       let result = await $.ajax({
         type: "GET",
         url: `/s/${search}`,
-        data: search,
-        dataType: "json",
       });
 
       let videos = $("#videos");
@@ -45,7 +43,11 @@ $(() => {
         $(videos).append(render);
       }
     } catch (error) {
-      console.log("E: ", error.responseText);
+      let videos = $("#videos");
+      videos.empty();
+      $(
+        videos
+      )[0].innerHTML = `<div class="text-center">${error.responseText}<div>`;
     }
   }
 

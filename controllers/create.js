@@ -23,8 +23,12 @@ const create_post = async (req, res) => {
     let newtags = new Array();
 
     tags.split(";").forEach((tag) => {
-      newtags.push(tag.trim().toLowerCase());
+      if (tag != "") {
+        newtags.push(tag.trim().toLowerCase());
+      }
     });
+
+    newtags = newtags.sort();
 
     await Home_model.create({ title, url, tags: newtags });
     res.sendStatus(200);
