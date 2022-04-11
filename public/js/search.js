@@ -33,8 +33,6 @@ $(() => {
       let result = await $.ajax({
         type: "GET",
         url: `/s/${search}`,
-        data: search,
-        dataType: "json",
       });
 
       let videos = $("#videos");

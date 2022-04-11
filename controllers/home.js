@@ -15,20 +15,38 @@ const home_get = async (req, res) => {
     let data = [];
 
     find.forEach((video, index) => {
-      if (index == 5) {
-        return;
+      if (index <= 4) {
+        let title = video.title;
+        let url = video.url;
+        let tags = video.tags;
+        data.push({ title, url, tags });
       }
-
-      let title = video.title;
-      let url = video.url;
-      let tags = video.tags;
-      data.push({ title, url, tags });
     });
 
     res.render("index.ejs", { data, admin: false });
   } catch (error) {
     res.render("index.ejs", { data: false, admin: false });
   }
+};
+
+const home_get_more = async (req, res) => {
+  let find = await Home_model.find();
+  let page = req.params.page;
+
+  find = find.splice(5 * page, 5);
+
+  let data = [];
+
+  find.forEach((video, index) => {
+    if (index <= 4) {
+      let title = video.title;
+      let url = video.url;
+      let tags = video.tags;
+      data.push({ title, url, tags });
+    }
+  });
+
+  res.send(data);
 };
 
 const home_get_search = async (req, res) => {
@@ -73,4 +91,5 @@ module.exports = {
   home_get,
   home_get_search,
   home_get_card,
+  home_get_more,
 };
