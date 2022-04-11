@@ -1,6 +1,7 @@
 //' BIBLIOTECAS
 
 const express = require("express");
+const ejs = require("ejs");
 const sessions = require("express-session");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
@@ -66,8 +67,6 @@ const home_route = require("./routes/home");
 const create_route = require("./routes/create");
 const login_route = require("./routes/login");
 const dashboard_route = require("./routes/dashboard");
-const { Socket } = require("socket.io");
-const req = require("express/lib/request");
 
 //' ROUTING
 

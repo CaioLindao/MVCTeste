@@ -1,3 +1,7 @@
+//' BIBLIOTECAS
+
+const ejs = require("ejs");
+
 //' MODELS
 
 const Home_model = require("../models/home");
@@ -30,18 +34,33 @@ const home_get = async (req, res) => {
 const home_get_search = async (req, res) => {
   let search = req.params.search;
 
+  // console.log(search);
   let obj = new RegExp(search, "i");
-  let found = await Home_model.find({ title: obj });
+  let find = await Home_model.find({ $or: [{ title: obj }, { tags: obj }] });
 
   try {
-    if (found[0] == undefined) {
-      throw `Could not find any results that match "${search}"`;
+    var data = [];
+
+    find.forEach((video, index) => {
+      if (index == 5) {
+        return;
+      }
+
+      let title = video.title;
+      let url = video.url;
+      let tags = video.tags;
+      data.push({ title, url, tags });
+    });
+
+    if (data[0] == undefined) {
+      throw "No results found for " + search;
     } else {
-      res.json(found);
+      // console.log(data.length);
+      res.json(data);
     }
   } catch (error) {
     console.log(error);
-    res.json({});
+    res.status(400).send("Nenhum vídeo encontrado");
   }
 };
 

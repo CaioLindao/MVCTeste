@@ -1,70 +1,86 @@
-window.addEventListener("load", () => {
-    //' VARIÁVEIS
-    const searchbar = document.getElementById("searchbar");
-    const results = document.getElementById("searchresults")
-    var template = '';
+$(() => {
+  //' VARIÁVEIS
+  const searchbar = $("#searchArea");
+  let typingTimer;
+  const doneTypingInterval = 500;
 
-    //' RECEBE O HTML CARD
-    fetch("/card", {
-        method: "GET"
-    })
-        .then((response) => {
-            return response.text()
-        })
-        .then((html => {
-            template = html;
-        }))
-        .then(() => {
-            //' AO PESQUISAR 
-            searchbar.addEventListener("input", () => {
-                if (searchbar.value != '') {
-                    var endpoint = `/${searchbar.value}`;
-                    fetch(endpoint, {
-                        method: "GET"
-                    })
-                        .then((response) => {
-                            results.innerHTML = '';
-                            return response.json()
-                        })
-                        .then(json => {
-                            if (json[0] != undefined) {
-                                json.forEach(video => {
-                                    createCard(video)
-                                });
-                            } else {
-                                createCard({ "error": "true" })
-                            }
-                        })
-                        .catch((e => { console.log(e) }))
-                } else {
-                    // var ul = document.createElement("ul");
-                    // var collection = document.body.getElementsByTagName("ul");
-                    // var uls = Array.from(collection);
-                    // uls[0].remove();
+  let search;
+  let lastSearch = "empty";
+  const template = $(".card-template")[0].innerHTML;
 
-                    // document.body.appendChild(ul);
-                }
+  //' PESQUISA
+  searchbar.on("keyup", function () {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(doneTyping, doneTypingInterval);
+  });
 
-            })
-        })
-        .catch(e => { throw e })
+  searchbar.on("keydown", function () {
+    clearTimeout(typingTimer);
+  });
 
-    //' CRIA A LISTA DE CARD A PARTIR DO JSON
-    const createCard = (json) => {
-        if (json.error != undefined) {
-            results.innerHTML = "Nenhum vídeo encontrado"
-            return;
-        }
-        results.innerHTML += template;
+  async function doneTyping() {
+    try {
+      // Atualiza o valor das varíaveis
+      lastSearch = search;
+      search = searchbar.val();
 
-        var button = document.createRange().createContextualFragment('<button class="btn btn-danger" id="<%=video.id %>">Delete</button>')
+      // Caso a pesquisa não tenha mudado, recusa o envio
+      if (search == lastSearch || search == "") {
+        return;
+      }
 
+      // Envia a pesquisa ao backend
+      let result = await $.ajax({
+        type: "GET",
+        url: `/s/${search}`,
+        data: search,
+        dataType: "json",
+      });
 
-        var cards = document.getElementsByClassName("card");
-        var lastcard = Array.from(cards)[cards.length - 1]
-        console.log(lastcard.children[0].children[1])
+      let videos = $("#videos");
+      videos.empty();
 
-        lastcard.children[0].children[0].appendChild(document.createTextNode(json.title));
-        lastcard.children[0].children[1].href = json.url;
+      for (let i = 0; i < result.length; i++) {
+        let render = await renderCards(result[i]);
+        $(videos).append(render);
+      }
+    } catch (error) {
+      console.log("E: ", error.responseText);
     }
-})
+  }
+
+  //' RENDERIZAÇÃO DOS RESULTADOS
+  async function renderCards(data) {
+    // Possibilita usar .unshift() em strings
+    String.prototype.unshift = function (el) {
+      let arr = [this];
+      arr.unshift(el);
+      return arr.join("");
+    };
+
+    try {
+      const ytUrl = "https://www.youtube.com/embed/";
+
+      let render = document.createElement("div");
+      render.innerHTML = template;
+
+      render.children[0].children[0].src = ytUrl + data.url;
+      render.children[1].children[0].innerHTML = data.title;
+
+      let tags = new Array();
+
+      data.tags.forEach((tag, index) => {
+        if (index != 0) {
+          tag = tag.unshift(" ");
+        }
+        tags.push(tag);
+      });
+
+      render.children[2].children[0].innerHTML = tags;
+
+      return render;
+    } catch (error) {
+      console.error("E: ", error);
+    }
+  }
+});
