@@ -2,16 +2,21 @@ $(() => {
   $("#form").on("submit", async (e) => {
     e.preventDefault();
     // Coleta os dados do formulário
+    var url = $("#url").val();
+    url = url.split("/");
+    url = url[url.length - 1];
+    // console.log(url);
+
     let form = {
       title: $("#title").val(),
-      url: $("#url").val(),
+      url,
       tags: $("#tags").val(),
     };
 
     try {
       const response = await $.post("/create/", form);
       if (jQuery.isEmptyObject(response)) {
-        throw "campo vazio";
+        throw "não foi possível criar este vídeo";
       }
       helpText("vídeo criado com sucesso", 100);
       $("#form").trigger("reset");
