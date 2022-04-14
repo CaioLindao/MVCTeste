@@ -10,6 +10,16 @@ const Home_model = require("../models/home");
 
 const home_get = async (req, res) => {
   let find = await Home_model.find();
+  let allTags = await Home_model.find({}, "tags");
+  let searchByTags = new Array();
+
+  allTags.forEach((video) => {
+    video["tags"].forEach((tag) => {
+      if (!searchByTags.includes(tag) && searchByTags.length <= 10) {
+        searchByTags.push(tag);
+      }
+    });
+  });
 
   try {
     let data = [];
@@ -23,9 +33,9 @@ const home_get = async (req, res) => {
       }
     });
 
-    res.render("index.ejs", { data, admin: false });
+    res.render("index.ejs", { data, admin: false, searchByTags });
   } catch (error) {
-    res.render("index.ejs", { data: false, admin: false });
+    res.render("index.ejs", { data: false, admin: false, searchByTags });
   }
 };
 
@@ -78,7 +88,7 @@ const home_get_search = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.send("Nenhum vídeo encontrado");
+    res.status(404).send("Nenhum vídeo encontrado");
   }
 };
 

@@ -1,6 +1,7 @@
 $(() => {
   //' VARIÁVEIS
   const searchbar = $("#searchArea");
+  const searchtag = $(".searchTag");
   let typingTimer;
   const doneTypingInterval = 500;
 
@@ -16,6 +17,16 @@ $(() => {
 
   searchbar.on("keydown", function () {
     clearTimeout(typingTimer);
+  });
+
+  searchtag.on("click", async function (e) {
+    try {
+      $(searchbar).val(e.target.innerHTML);
+      await doneTyping();
+      document.getElementById("videos-header").scrollIntoView();
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   async function doneTyping() {
@@ -42,6 +53,8 @@ $(() => {
         let render = await renderCards(result[i]);
         $(videos).append(render);
       }
+
+      $(window).trigger("resize");
     } catch (error) {
       let videos = $("#videos");
       videos.empty();
@@ -71,12 +84,13 @@ $(() => {
 
       let tags = new Array();
 
-      data.tags.forEach((tag, index) => {
-        if (index != 0) {
+      for (let i = 0; i < data.length; i++) {
+        const tag = data[i];
+        if (i != 0) {
           tag = tag.unshift(" ");
         }
         tags.push(tag);
-      });
+      }
 
       render.children[2].children[0].innerHTML = tags;
 
