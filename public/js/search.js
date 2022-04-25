@@ -84,11 +84,13 @@ $(() => {
 
       let tags = new Array();
 
-      for (let i = 0; i < data.length; i++) {
-        const tag = data[i];
+      for (let i = 0; i < data.tags.length; i++) {
+        var tag = data.tags.sort()[i];
+
         if (i != 0) {
           tag = tag.unshift(" ");
         }
+
         tags.push(tag);
       }
 
